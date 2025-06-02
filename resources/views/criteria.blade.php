@@ -20,6 +20,8 @@
                             <th>Nama</th>
                             <th>Label</th>
                             <th>Type</th>
+                            <th>Bobot</th>
+                            <th>Bobot Normalisasi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,6 +31,8 @@
                                 <td>{{ $kriteria->nama }}</td>
                                 <td class="text-center">{{ $kriteria->label }}</td>
                                 <td class="text-center">{{ $kriteria->type }}</td>
+                                <td class="text-center">{{ $kriteria->bobot }}</td>
+                                <td class="text-center">{{ $kriteria->bobot_normalisasi }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('dashboard.update-criteria', $kriteria->id) }}"
                                         class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit"
