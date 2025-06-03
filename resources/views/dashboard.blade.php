@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="../assets/img/icons/unicons/wallet-info.png" alt="Credit Card"
+                                        <img src="../assets/img/icons/unicons/sub-kriteria.png" alt="Credit Card"
                                             class="rounded" />
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="../assets/img/icons/unicons/wallet-info.png" alt="Credit Card"
+                                        <img src="../assets/img/icons/unicons/alternatif.png" alt="Credit Card"
                                             class="rounded" />
                                     </div>
                                 </div>
