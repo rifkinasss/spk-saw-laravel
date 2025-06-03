@@ -31,14 +31,15 @@
                                     <a href="{{ route('dashboard.update-alternatif', $alt->id) }}"
                                         class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit"
                                         data-id="{{ $alt->id }}" data-sampel="{{ $alt->sampel }}">
-                                        Edit
+                                        <i class="bx bx-pencil"></i>
                                     </a>
 
                                     <form action="{{ route('dashboard.destroy-alternatif', $alt->id) }}" method="POST"
                                         style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                class="bx bx-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

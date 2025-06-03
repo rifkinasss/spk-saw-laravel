@@ -17,29 +17,56 @@
                 <table id="table-dataset" class="table table-bordered table-striped text-center">
                     <thead>
                         <tr>
-                            <th class="d-none">Index</th> <!-- hidden numeric index -->
                             <th>No</th>
                             <th>Sampel</th>
                             @foreach ($kriterias as $kriteria)
                                 <th>{{ $kriteria->nama }}</th>
                             @endforeach
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($alternatifs as $index => $alt)
                             <tr>
-                                <td class="d-none">{{ $index + 1 }}</td> <!-- hidden numeric -->
-                                <td>{{ $index + 1 }}</td> <!-- visible -->
+                                <td>{{ $index + 1 }}</td>
                                 <td>{{ $alt->sampel }}</td>
                                 @foreach ($kriterias as $kriteria)
                                     @php
-                                        $nilai =
-                                            $datasets[$alt->id]->firstWhere('kriteria_id', $kriteria->id)->nilai ?? '-';
+                                        $dataset =
+                                            $datasets[$alt->id]->firstWhere('kriteria_id', $kriteria->id) ?? null;
                                     @endphp
-                                    <td>{{ $nilai }}</td>
+                                    <td>
+                                        {{ $dataset->nilai ?? '-' }}
+                                        @if ($dataset)
+                                            <div class="mt-1">
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#modalEditDataset" data-id="{{ $dataset->id }}"
+                                                    data-alternatif_id="{{ $dataset->alternatif_id }}"
+                                                    data-kriteria_id="{{ $dataset->kriteria_id }}"
+                                                    data-nilai="{{ $dataset->nilai }}">
+                                                    <i class="bx bx-pencil"></i>
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </td>
                                 @endforeach
+                                <td>
+                                    <form action="{{ route('alternatif.destroy', $alt->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus alternatif ini beserta semua nilainya?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                class="bx bx-trash"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
+
+                        @if ($alternatifs->isEmpty())
+                            <tr>
+                                <td colspan="{{ 3 + $kriterias->count() }}">Belum ada data alternatif.</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -147,7 +174,7 @@
             const nilai = button.getAttribute('data-nilai');
 
             const form = document.getElementById('formEditDataset');
-            form.action = '/dataset/' + id;
+            form.action = `dashboard/dataset/${id}`;
 
             document.getElementById('edit-id').value = id;
             document.getElementById('edit-alternatif_id').value = alternatifId;

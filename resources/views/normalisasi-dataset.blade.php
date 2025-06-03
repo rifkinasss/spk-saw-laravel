@@ -4,11 +4,18 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <div>
-                    <h5 class="card-title mb-0">{{ $title }}</h5>
-                    <p class="card-text mb-0">Data dataset yang sudah dinormalisasi ditampilkan berdasarkan sampel dan
-                        kriteria.</p>
-                </div>
+                <h5 class="card-title mb-0">{{ $title }}</h5>
+                <form action="{{ route('normalisasi.process') }}" method="POST"
+                    onsubmit="return confirm('Apakah Anda yakin ingin melakukan normalisasi ulang?')" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">
+                        Generate Normalisasi
+                    </button>
+                </form>
+            </div>
+            <div class="card-body">
+                <p class="card-text mb-0">Data dataset yang sudah dinormalisasi ditampilkan berdasarkan sampel dan
+                    kriteria.</p>
             </div>
 
             <div class="card-body">

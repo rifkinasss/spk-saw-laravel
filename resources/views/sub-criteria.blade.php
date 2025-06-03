@@ -36,14 +36,14 @@
                                         data-bs-target="#modalEdit" data-id="{{ $sub->id }}"
                                         data-nama="{{ $sub->nama }}" data-nilai="{{ $sub->nilai }}"
                                         data-kriteria="{{ $sub->kriteria_id }}">
-                                        Edit
+                                        <i class="bx bx-pencil"></i>
                                     </button>
 
                                     <form action="{{ route('dashboard.destroy-sub-criteria', $sub->id) }}" method="POST"
                                         class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm">Hapus</button>
+                                        <button class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

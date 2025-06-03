@@ -196,6 +196,17 @@ class SPKController extends Controller
         return redirect()->route('dashboard.alternatif')->with('success', 'Data alternatif berhasil dihapus.');
     }
 
+    public function destroy_alternatif_2($id)
+    {
+        // Hapus semua dataset yang berhubungan dengan alternatif ini
+        Dataset::where('alternatif_id', $id)->delete();
+
+        // Hapus alternatif itu sendiri
+        Alternatif::destroy($id);
+
+        return redirect()->back()->with('success', 'Alternatif dan semua datanya berhasil dihapus.');
+    }
+
     // --- Dataset ---
     public function index_dataset()
     {
@@ -239,6 +250,9 @@ class SPKController extends Controller
 
         return redirect()->back()->with('success', 'Dataset berhasil dihapus.');
     }
+
+
+
 
     // --- Normalisasi Dataset ---
     public function index_normalisasi()

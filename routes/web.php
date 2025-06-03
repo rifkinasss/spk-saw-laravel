@@ -26,6 +26,8 @@ Route::get('/dashboard/alternatif', [SPKController::class, 'index_alternatif'])-
 Route::post('/dashboard/alternatif', [SPKController::class, 'store_alternatif'])->name('dashboard.store-alternatif');
 Route::put('/dashboard/alternatif/{id}', [SPKController::class, 'update_alternatif'])->name('dashboard.update-alternatif');
 Route::delete('/dashboard/alternatif/{id}', [SPKController::class, 'destroy_alternatif'])->name('dashboard.destroy-alternatif');
+Route::delete('dashboard/alternatif_dataset/{id}', [SPKController::class, 'destroy_alternatif_2'])->name('alternatif.destroy');
+
 
 // Routes untuk Dataset
 Route::get('/dashboard/dataset', [SPKController::class, 'index_dataset'])->name('dashboard.dataset');
