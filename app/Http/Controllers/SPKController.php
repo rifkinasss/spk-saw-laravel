@@ -16,7 +16,55 @@ class SPKController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        return view('dashboard', compact('title'));
+        $criteria = Kriteria::count();
+        $alternatif = Alternatif::count();
+        $subKriteria = SubKriteria::count();
+        $dataset = Dataset::count();
+
+        // Hitung hasil SAW
+        $alternatifs = Alternatif::with('datasets')->get();
+        $kriterias = Kriteria::all();
+
+        $normalisasi = [];
+
+        foreach ($kriterias as $kriteria) {
+            $nilaiKriteria = [];
+
+            foreach ($alternatifs as $alt) {
+                $nilai = $alt->datasets->firstWhere('kriteria_id', $kriteria->id)->nilai ?? 0;
+                $nilaiKriteria[] = $nilai;
+            }
+
+            $max = max($nilaiKriteria);
+            $min = min($nilaiKriteria);
+
+            foreach ($alternatifs as $alt) {
+                foreach ($kriterias as $kriteria) {
+                    $normalisasiDb = NormalisasiDataset::where('alternatif_id', $alt->id)
+                        ->where('kriteria_id', $kriteria->id)
+                        ->first();
+
+                    $nilaiNormal = $normalisasiDb->nilai_normalisasi ?? 0;
+                    $bobotNormalisasi = $kriteria->bobot_normalisasi;
+
+                    $normalisasi[$alt->id][$kriteria->id] = $nilaiNormal * $bobotNormalisasi;
+                }
+            }
+        }
+
+        $hasil = [];
+        foreach ($alternatifs as $alt) {
+            $total = array_sum($normalisasi[$alt->id]);
+            $hasil[] = [
+                'alternatif' => $alt->sampel,
+                'nilai' => round($total, 2),
+            ];
+        }
+
+        // Urutkan dan ambil 5 besar
+        usort($hasil, fn($a, $b) => $b['nilai'] <=> $a['nilai']);
+        $top5 = array_slice($hasil, 0, 5);
+        return view('dashboard', compact('title', 'criteria', 'alternatif', 'subKriteria', 'dataset', 'top5'));
     }
 
     // --- Kriteria ---
@@ -275,13 +323,6 @@ class SPKController extends Controller
     }
 
     // --- Hasil ---
-
-    function truncate_decimal($number, $digits = 2)
-    {
-        $step = pow(10, $digits);
-        return floor($number * $step) / $step;
-    }
-
     public function hasilSAW()
     {
         $title = 'Hasil SAW';
@@ -321,7 +362,7 @@ class SPKController extends Controller
             $total = array_sum($normalisasi[$alt->id]);
             $hasil[] = [
                 'alternatif' => $alt->sampel,
-                'nilai' => $this->truncate_decimal($total, 2),
+                'nilai' => round($total, 2),
             ];
         }
 
