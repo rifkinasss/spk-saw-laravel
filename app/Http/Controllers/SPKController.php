@@ -64,7 +64,7 @@ class SPKController extends Controller
         // Urutkan dan ambil 5 besar
         usort($hasil, fn($a, $b) => $b['nilai'] <=> $a['nilai']);
         $top5 = array_slice($hasil, 0, 5);
-        return view('dashboard', compact('title', 'criteria', 'alternatif', 'subKriteria', 'dataset', 'top5'));
+        return view('dashboard', compact('title', 'criteria', 'alternatif', 'subKriteria', 'dataset', 'top5', 'hasil'));
     }
 
     // --- Kriteria ---
